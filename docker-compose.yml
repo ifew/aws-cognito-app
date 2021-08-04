@@ -1,8 +1,16 @@
 version: '2'
 services:
   app:
-    image: sanderknape/aws-cognito-app
+    image: ifew/nginx_php:7.3
     ports:
       - 80:80
     env_file:
-      - .env
+      - .env.dev
+    environment:
+      AWS_ACCESS_KEY_ID: '$AWS_ACCESS_KEY_ID'
+      AWS_SECRET_ACCESS_KEY: '$AWS_SECRET_ACCESS_KEY'
+      REGION: '$REGION'
+      CLIENT_ID: '$CLIENT_ID'
+      USERPOOL_ID: '$USERPOOL_ID'
+    volumes:
+      - './app:/var/www/app'

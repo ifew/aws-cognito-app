@@ -8,6 +8,7 @@ $wrapper->initialize();
 
 $entercode = false;
 
+$error = ''
 if(isset($_POST['action'])) {
 
     if($_POST['action'] === 'code') {
@@ -16,7 +17,7 @@ if(isset($_POST['action'])) {
         $error = $wrapper->sendPasswordResetMail($username);
 
         if(empty($error)) {
-            header('Location: forgotpassword.php?username=' . $username);
+            header('Location: /public/forgotpassword.php?username=' . $username);
         }
     }
 
@@ -30,7 +31,7 @@ if(isset($_POST['action'])) {
 
         // TODO: show message on new page that password has been reset
         if(empty($error)) {
-            header('Location: index.php?reset');
+            header('Location: /public/index.php?reset');
         }
     }
 }
@@ -51,11 +52,11 @@ if(isset($_GET['username'])) {
     <body>
         <h1>Menu</h1>
         <ul>
-            <li><a href='/'>Index</a></li>
-            <li><a href='/secure.php'>Secure page</a></li>
-            <li><a href='/confirm.php'>Confirm signup</a></li>
-            <li><a href='/forgotpassword.php'>Forgotten password</a></li>
-            <li><a href='/logout.php'>Logout</a></li>
+            <li><a href='/public/'>Index</a></li>
+            <li><a href='/public/secure.php'>Secure page</a></li>
+            <li><a href='/public/confirm.php'>Confirm signup</a></li>
+            <li><a href='/public/forgotpassword.php'>Forgotten password</a></li>
+            <li><a href='/public/logout.php'>Logout</a></li>
         </ul>
         <p style='color: red;'><?php echo $error;?></p>
         <?php if($entercode) { ?>

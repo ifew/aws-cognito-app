@@ -6,6 +6,7 @@ use AWSCognitoApp\AWSCognitoWrapper;
 $wrapper = new AWSCognitoWrapper();
 $wrapper->initialize();
 
+$error = '';
 if(isset($_POST['action'])) {
     $username = $_POST['username'] ?? '';
     $confirmation = $_POST['confirmation'] ?? '';
@@ -13,7 +14,7 @@ if(isset($_POST['action'])) {
     $error = $wrapper->confirmSignup($username, $confirmation);
 
     if(empty($error)) {
-        header('Location: secure.php');
+        header('Location: /public/secure.php');
     }
 }
 
@@ -31,11 +32,11 @@ $username = $_GET['username'] ?? '';
     <body>
         <h1>Menu</h1>
         <ul>
-            <li><a href='/'>Index</a></li>
-            <li><a href='/secure.php'>Secure page</a></li>
-            <li><a href='/confirm.php'>Confirm signup</a></li>
-            <li><a href='/forgotpassword.php'>Forgotten password</a></li>
-            <li><a href='/logout.php'>Logout</a></li>
+            <li><a href='/public/'>Index</a></li>
+            <li><a href='/public/secure.php'>Secure page</a></li>
+            <li><a href='/public/confirm.php'>Confirm signup</a></li>
+            <li><a href='/public/forgotpassword.php'>Forgotten password</a></li>
+            <li><a href='/public/logout.php'>Logout</a></li>
         </ul>
         <p style='color: red;'><?php echo $error;?></p>
         <h1>Confirm signup</h1>

@@ -8,4 +8,4 @@ $wrapper->initialize();
 
 $wrapper->logout();
 
-header('Location: /');
+header('Location: /public');

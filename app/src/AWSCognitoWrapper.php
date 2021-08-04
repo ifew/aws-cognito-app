@@ -63,7 +63,7 @@ class AWSCognitoWrapper
         return '';
     }
 
-    public function signup(string $username, string $email, string $password) : string
+    public function signup(string $username, string $email, string $password, string $birthdate, string $given_name, string $family_name, string $gender) : string
     {
         try {
             $result = $this->client->signUp([
@@ -78,6 +78,22 @@ class AWSCognitoWrapper
                     [
                         'Name' => 'email',
                         'Value' => $email
+                    ],
+                    [
+                        'Name' => 'birthdate',
+                        'Value' => $birthdate
+                    ],
+                    [
+                        'Name' => 'family_name',
+                        'Value' => $family_name
+                    ],
+                    [
+                        'Name' => 'gender',
+                        'Value' => $gender
+                    ],
+                    [
+                        'Name' => 'given_name',
+                        'Value' => $given_name
                     ]
                 ],
             ]);

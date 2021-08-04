@@ -6,6 +6,7 @@ use AWSCognitoApp\AWSCognitoWrapper;
 $wrapper = new AWSCognitoWrapper();
 $wrapper->initialize();
 
+$error = '';
 if(isset($_POST['action'])) {
 
     $username = $_POST['username'] ?? '';
@@ -13,10 +14,15 @@ if(isset($_POST['action'])) {
 
     if($_POST['action'] === 'register') {
         $email = $_POST['email'] ?? '';
-        $error = $wrapper->signup($username, $email, $password);
+        $birthdate = $_POST['birthdate'] ?? '';
+        $given_name = $_POST['given_name'] ?? '';
+        $family_name = $_POST['family_name'] ?? '';
+        $gender = $_POST['gender'] ?? '';
+
+        $error = $wrapper->signup($username, $email, $password, $birthdate, $given_name, $family_name, $gender);
 
         if(empty($error)) {
-            header('Location: confirm.php?username=' . $username);
+            header('Location: /public/confirm.php?username=' . $username);
             exit;
         }
     }
@@ -25,7 +31,7 @@ if(isset($_POST['action'])) {
         $error = $wrapper->authenticate($username, $password);
 
         if(empty($error)) {
-            header('Location: secure.php');
+            header('Location: /public/secure.php');
             exit;
         }
     }
@@ -48,11 +54,11 @@ if(isset($_GET['reset'])) {
     <body>
         <h1>Menu</h1>
         <ul>
-            <li><a href='/'>Index</a></li>
-            <li><a href='/secure.php'>Secure page</a></li>
-            <li><a href='/confirm.php'>Confirm signup</a></li>
-            <li><a href='/forgotpassword.php'>Forgotten password</a></li>
-            <li><a href='/logout.php'>Logout</a></li>
+            <li><a href='/public/'>Index</a></li>
+            <li><a href='/public/secure.php'>Secure page</a></li>
+            <li><a href='/public/confirm.php'>Confirm signup</a></li>
+            <li><a href='/public/forgotpassword.php'>Forgotten password</a></li>
+            <li><a href='/public/logout.php'>Logout</a></li>
         </ul>
         <p style='color: red;'><?php echo $error;?></p>
         <p style='color: green;'><?php echo $message;?></p>
@@ -60,6 +66,10 @@ if(isset($_GET['reset'])) {
         <form method='post' action=''>
             <input type='text' placeholder='Username' name='username' /><br />
             <input type='text' placeholder='Email' name='email' /><br />
+            <input type='text' placeholder='Birth date' name='birthdate' value="1985-01-31" /><br />
+            <input type='text' placeholder='Given name' name='given_name' value="ฟิวส์"  /><br />
+            <input type='text' placeholder='Family name' name='family_name' value="โอริสมา" /><br />
+            <input type='text' placeholder='Gender' name='gender' value="male" /><br />
             <input type='password' placeholder='Password' name='password' /><br />
             <input type='hidden' name='action' value='register' />
             <input type='submit' value='Register' />
@@ -72,6 +82,6 @@ if(isset($_GET['reset'])) {
             <input type='hidden' name='action' value='login' />
             <input type='submit' value='Login' />
         </form>
-        <p><a href='/forgotpassword.php'>Forgot password?</a></p>
+        <p><a href='/public/forgotpassword.php'>Forgot password?</a></p>
     </body>
 </html>

@@ -7,7 +7,7 @@ $wrapper = new AWSCognitoWrapper();
 $wrapper->initialize();
 
 if(!$wrapper->isAuthenticated()) {
-    header('Location: /');
+    header('Location: /public');
     exit;
 }
 
@@ -27,21 +27,36 @@ $users = $wrapper->getPoolUsers();
     <body>
         <h1>Menu</h1>
         <ul>
-            <li><a href='/'>Index</a></li>
-            <li><a href='/secure.php'>Secure page</a></li>
-            <li><a href='/confirm.php'>Confirm signup</a></li>
-            <li><a href='/forgotpassword.php'>Forgotten password</a></li>
-            <li><a href='/logout.php'>Logout</a></li>
+            <li><a href='/public'>Index</a></li>
+            <li><a href='/public/secure.php'>Secure page</a></li>
+            <li><a href='/public/confirm.php'>Confirm signup</a></li>
+            <li><a href='/public/forgotpassword.php'>Forgotten password</a></li>
+            <li><a href='/public/logout.php'>Logout</a></li>
         </ul>
         <h1>Secure page</h1>
         <p>Welcome <strong><?php echo $user->get('Username');?></strong>! You are succesfully authenticated. Some <em>secret</em> information about this user pool:</p>
 
+        <?php
+        $attributes_array = array();
+        foreach($user->get('UserAttributes') as $attributes) {
+            $attributes_array[$attributes['Name']] = $attributes['Value'];
+        }
+        // var_dump($attributes_array);
+        ?>
         <h2>Metadata</h2>
         <p><b>Id:</b> <?php echo $pool['Id'];?></p>
-        <p><b>Name:</b> <?php echo $pool['Name'];?></p>
+        <p><b>Sub:</b> <?php echo $user->get('sub');?></p>
+        <p><b>Name (Pool):</b> <?php echo $pool['Name'];?></p>
+        <p><b>Name (User):</b> <?php echo $attributes_array['sub'];?></p>
+        <p><b>Given Name:</b> <?php echo $attributes_array['given_name']?></p>
+        <p><b>Family Name:</b> <?php echo $attributes_array['family_name'];?></p>
+        <p><b>Birth Date:</b> <?php echo $attributes_array['birthdate'];?></p>
+        <p><b>Gender:</b> <?php echo $attributes_array['gender']?></p>
+        <p><b>Email:</b> <?php echo $attributes_array['email']?></p>
+        <p><b>Email Verified Status:</b> <?php echo $attributes_array['email_verified']?></p>
         <p><b>CreationDate:</b> <?php echo $pool['CreationDate'];?></p>
 
-        <h2>Users</h2>
+        <h2>Users in Pool</h2>
         <ul>
         <?php
         foreach($users as $user) {
