@@ -8,7 +8,7 @@ $wrapper->initialize();
 
 $entercode = false;
 
-$error = ''
+$error = '';
 if(isset($_POST['action'])) {
 
     if($_POST['action'] === 'code') {
